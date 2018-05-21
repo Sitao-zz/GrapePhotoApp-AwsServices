@@ -3,18 +3,15 @@ var uuid = require('uuid');
 
 var AWS = require("aws-sdk");
 var docClient = new AWS.DynamoDB.DocumentClient();
-var table = 'Photo';
+var table = 'User';
 
 exports.handler = (event, context, callback) => {
     var params = {
         TableName: table,
         Item: {
-            "PhotoId": uuid.v4(),
-            "LikeCount": 0,
-            "Note": event.note,
-            "Timestamp": new Date().toISOString(),
-            "Url": event.url,
-            "UserId": event.userid
+            "UserId": event.uid,
+            "Password": event.pwd,
+            "Email": event.email
         }
     };
 
