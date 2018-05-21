@@ -1,5 +1,4 @@
 var formatter = require('resultFormatter.js');
-var uuid = require('uuid');
 
 var AWS = require("aws-sdk");
 var docClient = new AWS.DynamoDB.DocumentClient();
@@ -9,7 +8,7 @@ exports.handler = (event, context, callback) => {
     var params = {
         TableName: table,
         Item: {
-            "UserId": event.uid,
+            "UserId": event.userid,
             "Password": event.pwd,
             "Email": event.email
         }

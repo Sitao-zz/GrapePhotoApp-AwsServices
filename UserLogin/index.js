@@ -8,7 +8,7 @@ exports.handler = (event, context, callback) => {
     var params = {
         TableName: table,
         Key:{
-            "UserId": event.uid
+            "UserId": event.userid
         }
     };
 
