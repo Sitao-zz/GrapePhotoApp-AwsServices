@@ -18,14 +18,25 @@ exports.handler = (event, context, callback) => {
       ReturnValues:"UPDATED_NEW"
     };
 
+    docClient.get(params, function(err, data) {
+        if (err) {
+            callback(null, formatter.getReultError("Unable to update item. " + err));
+        } else {
+            if(typeof data.Item == 'undefined') {
+                callback(null, formatter.getReultError("Item does not exist."));
+            } else {
+                updateItem(params, callback);
+            }
+        }
+    });
+};
+
+function updateItem(params, callback) {
     docClient.update(params, function(err, data) {
         if (err) {
             callback(null, formatter.getReultError("Unable to update item. " + err));
         } else {
-            var obj = {
-                Item: params.Item
-            };
-            callback(null, formatter.getResultSingle(obj));
+            callback(null, formatter.getResultSingle(""));
         }
     });
-};
+}
