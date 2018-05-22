@@ -5,7 +5,31 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 var table = 'User';
 
 exports.handler = (event, context, callback) => {
-    var params = {
+    getItem(event, updateItem, callback);
+};
+
+function getItem(event, nextcall, callback) {
+    let params = {
+      TableName:table,
+      Key:{
+          "UserId": event.userid
+      }
+    };
+    docClient.get(params, function(err, data) {
+        if (err) {
+            callback(null, formatter.getReultError("Unable to update User. " + err));
+        } else {
+            if(typeof data.Item == 'undefined') {
+                callback(null, formatter.getReultError("User does not exist."));
+            } else {
+                nextcall(event, callback);
+            }
+        }
+    });
+}
+
+function updateItem(event, callback) {
+    let params = {
       TableName:table,
       Key:{
           "UserId": event.userid
@@ -17,26 +41,11 @@ exports.handler = (event, context, callback) => {
       },
       ReturnValues:"UPDATED_NEW"
     };
-
-    docClient.get(params, function(err, data) {
-        if (err) {
-            callback(null, formatter.getReultError("Unable to update item. " + err));
-        } else {
-            if(typeof data.Item == 'undefined') {
-                callback(null, formatter.getReultError("Item does not exist."));
-            } else {
-                updateItem(params, callback);
-            }
-        }
-    });
-};
-
-function updateItem(params, callback) {
     docClient.update(params, function(err, data) {
         if (err) {
             callback(null, formatter.getReultError("Unable to update item. " + err));
         } else {
-            callback(null, formatter.getResultSingle(""));
+            callback(null, formatter.getResultSingle(null));
         }
     });
 }
