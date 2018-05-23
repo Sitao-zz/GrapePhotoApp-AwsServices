@@ -5,19 +5,32 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 var table = 'User';
 
 exports.handler = (event, context, callback) => {
-    var params = {
-        TableName: table,
-        Key:{
-            "UserId": event.userid
+    let params = {
+        TableName:table,
+        ProjectionExpression:"UserId, UserName, Email, Password",
+        KeyConditionExpression: "UserId = :userid",
+        ExpressionAttributeValues: {
+            ":userid":event.userid
         }
     };
-
-    docClient.get(params, function(err, data) {
+    docClient.query(params, function(err, data) {
         if (err) {
-            callback(null, formatter.getReultError("Unable to read item. " + err));
+            callback(null, formatter.getResultError("Unable to read item. " + err));
         } else {
-            callback(null, formatter.getResultSingle(data));
-            //callback(null, JSON.stringify(data, null, 2));
+            if(data.Count > 0) {
+                if (data.Items[0].Password == event.pwd) {
+                    let result = {
+                        "UserId": data.Items[0].UserId,
+                        "UserName": data.Items[0].UserName,
+                        "Email": data.Items[0].Email
+                    }
+                    callback(null, formatter.getResultSingle(result));
+                } else {
+                    callback(null, formatter.getResultError("Password is not correct."));
+                }
+            } else {
+                callback(null, formatter.getResultError("User does not exist."));
+            }
         }
     });
 };
