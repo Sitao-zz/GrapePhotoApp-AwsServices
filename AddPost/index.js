@@ -9,7 +9,7 @@ exports.handler = (event, context, callback) => {
     var params = {
         TableName: table,
         Item: {
-            "PostId": uuid.v4(),
+            "PostId": uuid.v1(),
             "LikeCount": 0,
             "Note": event.note,
             "Timestamp": new Date().toISOString(),
