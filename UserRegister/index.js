@@ -21,7 +21,7 @@ function getItem(event, nextcall, callback) {
         if (err) {
             callback(null, formatter.getReultError("Unable to register user. " + err));
         } else {
-            if(typeof data.Item != 'undefined') {
+            if(data.Count > 0) {
                 callback(null, formatter.getReultError("UserId already exists."));
             } else {
                 nextcall(event, callback);
