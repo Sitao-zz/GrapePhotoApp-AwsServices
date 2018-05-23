@@ -17,7 +17,7 @@ module.exports = {
         };
         return result;
     },
-    getReultError: function (msg) {
+    getResultError: function (msg) {
         var result = {
           "success":false,
           "result":null,

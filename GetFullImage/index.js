@@ -14,7 +14,7 @@ exports.handler = (event, context, callback) => {
 
     docClient.get(params, function(err, data) {
         if (err) {
-            callback(null, formatter.getReultError("Unable to read item. " + err));
+            callback(null, formatter.getResultError("Unable to read item. " + err));
         } else {
             callback(null, formatter.getResultSingle(data));
             //callback(null, JSON.stringify(data, null, 2));

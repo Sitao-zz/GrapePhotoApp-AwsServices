@@ -19,10 +19,10 @@ function getItem(event, nextcall, callback) {
     };
     docClient.query(params, function(err, data) {
         if (err) {
-            callback(null, formatter.getReultError("Unable to register user. " + err));
+            callback(null, formatter.getResultError("Unable to register user. " + err));
         } else {
             if(data.Count > 0) {
-                callback(null, formatter.getReultError("UserId already exists."));
+                callback(null, formatter.getResultError("UserId already exists."));
             } else {
                 nextcall(event, callback);
             }
@@ -47,7 +47,7 @@ function insertItem(event, callback) {
     };
     docClient.put(params, function(err, data) {
         if (err) {
-            callback(null, formatter.getReultError("Unable to insert item. " + err));
+            callback(null, formatter.getResultError("Unable to insert item. " + err));
         } else {
             callback(null, formatter.getResultSingle(null));
         }

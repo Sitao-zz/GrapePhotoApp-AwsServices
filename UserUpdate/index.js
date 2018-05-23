@@ -17,10 +17,10 @@ function getItem(event, nextcall, callback) {
     };
     docClient.get(params, function(err, data) {
         if (err) {
-            callback(null, formatter.getReultError("Unable to update User. " + err));
+            callback(null, formatter.getResultError("Unable to update User. " + err));
         } else {
             if(typeof data.Item == 'undefined') {
-                callback(null, formatter.getReultError("User does not exist."));
+                callback(null, formatter.getResultError("User does not exist."));
             } else {
                 nextcall(event, callback);
             }
@@ -43,7 +43,7 @@ function updateItem(event, callback) {
     };
     docClient.update(params, function(err, data) {
         if (err) {
-            callback(null, formatter.getReultError("Unable to update item. " + err));
+            callback(null, formatter.getResultError("Unable to update item. " + err));
         } else {
             callback(null, formatter.getResultSingle(null));
         }

@@ -20,7 +20,7 @@ exports.handler = (event, context, callback) => {
 
     docClient.put(params, function(err, data) {
         if (err) {
-            callback(null, formatter.getReultError("Unable to insert item. " + err));
+            callback(null, formatter.getResultError("Unable to insert item. " + err));
         } else {
             var obj = {
                 Item: params.Item
