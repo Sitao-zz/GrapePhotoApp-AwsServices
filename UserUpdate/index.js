@@ -10,16 +10,18 @@ exports.handler = (event, context, callback) => {
 
 function getItem(event, nextcall, callback) {
     let params = {
-      TableName:table,
-      Key:{
-          "UserId": event.userid
-      }
+        TableName:table,
+        ProjectionExpression:"UserId",
+        KeyConditionExpression: "UserId = :userid",
+        ExpressionAttributeValues: {
+            ":userid":event.userid
+        }
     };
-    docClient.get(params, function(err, data) {
+    docClient.query(params, function(err, data) {
         if (err) {
             callback(null, formatter.getResultError("Unable to update User. " + err));
         } else {
-            if(typeof data.Item == 'undefined') {
+            if(data.Count == 0) {
                 callback(null, formatter.getResultError("User does not exist."));
             } else {
                 nextcall(event, callback);
@@ -29,12 +31,23 @@ function getItem(event, nextcall, callback) {
 }
 
 function updateItem(event, callback) {
+    let expr = "";
+    if (typeof event.pwd != 'undefined') {
+        if(expr == "")  { expr += "set "; }
+        else { expr += ", "; }
+        expr += "Password=:p";
+    }
+    if (typeof event.email != 'undefined') {
+        if(expr == "")  { expr += "set "; }
+        else { expr += ", "; }
+        expr += "Email=:e";
+    }
     let params = {
       TableName:table,
       Key:{
           "UserId": event.userid
       },
-      UpdateExpression: "set Password = :p, Email=:e",
+      UpdateExpression: expr,
       ExpressionAttributeValues:{
           ":p":event.pwd,
           ":e":event.email
