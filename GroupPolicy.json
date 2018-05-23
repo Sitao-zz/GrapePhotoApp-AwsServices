@@ -109,6 +109,12 @@
           ],
           "Resource": "*",
           "Condition": {"StringEquals": {"aws:RequestedRegion": "us-east-1"}}
+        },
+        {
+          "Effect": "Allow",
+          "Action": "iam:*",
+          "Resource": "*",
+          "Condition": {"StringEquals": {"aws:RequestedRegion": "us-east-1"}}
         }
     ]
 }
