@@ -29,12 +29,14 @@
                 "logs:GetLogEvents"
             ],
             "Effect": "Allow",
-            "Resource": "*"
+            "Resource": "*",
+            "Condition": {"StringEquals": {"aws:RequestedRegion": "us-east-1"}}
         },
         {
             "Action": "pi:*",
             "Effect": "Allow",
-            "Resource": "arn:aws:pi:*:*:metrics/rds/*"
+            "Resource": "arn:aws:pi:*:*:metrics/rds/*",
+            "Condition": {"StringEquals": {"aws:RequestedRegion": "us-east-1"}}
         },
         {
             "Action": "iam:CreateServiceLinkedRole",
@@ -48,6 +50,65 @@
                     ]
                 }
             }
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "cloudformation:DescribeChangeSet",
+            "cloudformation:DescribeStackResources",
+            "cloudformation:DescribeStacks",
+            "cloudformation:GetTemplate",
+            "cloudformation:ListStackResources",
+            "cloudwatch:*",
+            "cognito-identity:ListIdentityPools",
+            "cognito-sync:GetCognitoEvents",
+            "cognito-sync:SetCognitoEvents",
+            "dynamodb:*",
+            "ec2:DescribeSecurityGroups",
+            "ec2:DescribeSubnets",
+            "ec2:DescribeVpcs",
+            "events:*",
+            "iam:GetPolicy",
+            "iam:GetPolicyVersion",
+            "iam:GetRole",
+            "iam:GetRolePolicy",
+            "iam:ListAttachedRolePolicies",
+            "iam:ListRolePolicies",
+            "iam:ListRoles",
+            "iam:PassRole",
+            "iot:AttachPrincipalPolicy",
+            "iot:AttachThingPrincipal",
+            "iot:CreateKeysAndCertificate",
+            "iot:CreatePolicy",
+            "iot:CreateThing",
+            "iot:CreateTopicRule",
+            "iot:DescribeEndpoint",
+            "iot:GetTopicRule",
+            "iot:ListPolicies",
+            "iot:ListThings",
+            "iot:ListTopicRules",
+            "iot:ReplaceTopicRule",
+            "kinesis:DescribeStream",
+            "kinesis:ListStreams",
+            "kinesis:PutRecord",
+            "kms:ListAliases",
+            "lambda:*",
+            "logs:*",
+            "s3:*",
+            "sns:ListSubscriptions",
+            "sns:ListSubscriptionsByTopic",
+            "sns:ListTopics",
+            "sns:Publish",
+            "sns:Subscribe",
+            "sns:Unsubscribe",
+            "sqs:ListQueues",
+            "sqs:SendMessage",
+            "tag:GetResources",
+            "xray:PutTelemetryRecords",
+            "xray:PutTraceSegments"
+          ],
+          "Resource": "*",
+          "Condition": {"StringEquals": {"aws:RequestedRegion": "us-east-1"}}
         }
     ]
 }
