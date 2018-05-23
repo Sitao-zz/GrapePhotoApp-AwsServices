@@ -10,12 +10,14 @@ exports.handler = (event, context, callback) => {
 
 function getItem(event, nextcall, callback) {
     let params = {
-      TableName:table,
-      Key:{
-          "UserId": event.userid
-      }
+        TableName:table,
+        ProjectionExpression:"UserId",
+        KeyConditionExpression: "UserId = :userid",
+        ExpressionAttributeValues: {
+            ":userid":event.userid
+        }
     };
-    docClient.get(params, function(err, data) {
+    docClient.query(params, function(err, data) {
         if (err) {
             callback(null, formatter.getReultError("Unable to register user. " + err));
         } else {
@@ -29,10 +31,16 @@ function getItem(event, nextcall, callback) {
 }
 
 function insertItem(event, callback) {
+    let username = event.username;
+    if(typeof username == 'undefined') {
+        username = event.userid;
+    }
+
     let params = {
         TableName: table,
         Item: {
             "UserId": event.userid,
+            "UserName": username,
             "Password": event.pwd,
             "Email": event.email
         }
