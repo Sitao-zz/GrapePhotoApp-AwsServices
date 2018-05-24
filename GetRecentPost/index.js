@@ -6,23 +6,24 @@ var table = 'Post';
 
 var scan_callback = null;
 var scan_event = null;
+var scan_data = null;
+var scan_params = null;
 
 exports.handler = (event, context, callback) => {
     var params = {
         TableName: table,
         ProjectionExpression: "PostId, #ts, ImgUrl, LikeCount, Note, UserId",
-        FilterExpression: "PostId = :postid",
         ExpressionAttributeNames: {
             "#ts": "Timestamp",
         },
-        ExpressionAttributeValues: {
-             ":postid": event.postid
-        },
+        Limit: event.limit,
         ScanIndexForward: false
     };
 
+    scan_params = params;
     scan_callback = callback;
     scan_event = event;
+    scan_data = [];
     docClient.scan(params, onScan);
 };
 
@@ -31,10 +32,22 @@ function onScan(err, data) {
         scan_callback(null, formatter.getResultError("Unable to read item. " + err));
     } else {
         data.Items.forEach(function(post) {
-            scan_callback(null, formatter.getResultSingle(post));
-            return;
+            scan_data.push(post);
+            if(scan_data.length >= scan_event.limit) {
+                scan_callback(null, formatter.getResultMultiple(scan_data));
+                return;
+            }
         });
 
-        scan_callback(null, formatter.getResultError("Post is not found."));
+        // continue scanning if we have more posts, because
+        // scan can retrieve a maximum of 1MB of data
+        if (typeof data.LastEvaluatedKey != "undefined") {
+            console.log("Scanning for more...");
+            scan_params.ExclusiveStartKey = data.LastEvaluatedKey;
+            docClient.scan(scan_params, onScan);
+        } else {
+            scan_callback(null, formatter.getResultMultiple(scan_data));
+            return;
+        }
     }
 }
