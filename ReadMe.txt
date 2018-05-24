@@ -1,39 +1,44 @@
 // Lambda services deployed to AWS service
 Lambda
+
+************************
+***** Post Service *****
+************************
+
+#AddPost#
+input: image
+- create thumbnail
+- store image in S3
+- save URL to DB
+
+#GetPost#
+input: imageId
+- get the full image
+- get the image tag
+- get the like counts
+
+#GetRecentPosts#
+input: user
+- get list of followees
+- retrieve the recent images thumbnails by the followees
+
+#LikePost#
+- add record of like
+- retrieve the like counts
+
+#Image analyser#
+- analyse the image and create tag save to DB
+
+************************
+***** User Service *****
+************************
+
 #Register user#
 - save user particular (userId, email, password, phoneId)
 
 #Login user#
 - authentication
 - call #Image Retieval#
-
-#Image uploader#
-input: image
-- create thumbnail
-- store image in S3
-- save URL to DB
-
-#Image analyser#
-- analyse the image and create tag save to DB
-
-#Notification#
-input: image, uploader
-- retrieve the subscribers of the user and send notification
-
-#Recent Image#
-input: user
-- get list of followees
-- retrieve the recent images thumbnails by the followees
-- retrieve the like counts
-
-#Image full access#
-input: imageId
-- get the full image
-- get the image tag
-- get the like counts
-
-#Like photo#
-- add record of like
 
 #Search users#
 input: user id, phone, number, email or something
@@ -42,3 +47,11 @@ input: user id, phone, number, email or something
 
 #Follow users#
 - update DB
+
+********************************
+***** Notification Service *****
+********************************
+
+#Notification#
+input: image, uploader
+- retrieve the subscribers of the user and send notification
