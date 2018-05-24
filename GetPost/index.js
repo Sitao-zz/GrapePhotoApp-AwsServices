@@ -2,13 +2,13 @@ var formatter = require('resultFormatter.js');
 
 var AWS = require("aws-sdk");
 var docClient = new AWS.DynamoDB.DocumentClient();
-var table = 'Photo';
+var table = 'Post';
 
 exports.handler = (event, context, callback) => {
     var params = {
         TableName: table,
         Key:{
-            "PhotoId": event.photoid
+            "PostId": event.postid
         }
     };
 
