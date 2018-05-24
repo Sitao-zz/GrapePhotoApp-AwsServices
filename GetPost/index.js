@@ -10,13 +10,6 @@ var scan_event = null;
 exports.handler = (event, context, callback) => {
     var params = {
         TableName: table,
-        Key:{
-            "PostId": event.postid
-        }
-    };
-
-    var params = {
-        TableName: table,
         ProjectionExpression: "PostId, #ts, ImgUrl, LikeCount, Note, UserId",
         FilterExpression: "PostId = :postid",
         ExpressionAttributeNames: {
