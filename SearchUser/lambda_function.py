@@ -7,7 +7,12 @@ dynamodb_resource = resource('dynamodb')
 def lambda_handler(event, context):
     try:
         data = scan_table("User","UserName",event['username'])
-        response = getResultMultiple(data['Items'])
+        result = {
+            "UserId": data['Items'][0]['UserId'],
+            "UserName": data['Items'][0]['UserName'],
+            "Email": data['Items'][0]['Email']
+        }
+        response = getResultMultiple(result)
     except Exception, e:
         response = getResultError(str(e))
     return response
