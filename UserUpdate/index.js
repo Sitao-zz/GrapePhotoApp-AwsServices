@@ -42,6 +42,11 @@ function updateItem(event, callback) {
         else { expr += ", "; }
         expr += "Email=:e";
     }
+    if (typeof event.username != 'undefined') {
+        if(expr == "")  { expr += "set "; }
+        else { expr += ", "; }
+        expr += "UserName=:n";
+    }
     let params = {
       TableName:table,
       Key:{
@@ -50,7 +55,8 @@ function updateItem(event, callback) {
       UpdateExpression: expr,
       ExpressionAttributeValues:{
           ":p":event.pwd,
-          ":e":event.email
+          ":e":event.email,
+          ":n":event.username
       },
       ReturnValues:"UPDATED_NEW"
     };
