@@ -11,12 +11,18 @@ dynamodb_resource = resource('dynamodb')
 def lambda_handler(event, context):
     try:
         if event['follow'] == 1:
-            addedItem={'Id':uuid.uuid4().hex,'Follower':event['follower'],'Followee':event['followee']}
-            result = add_item("Follow",addedItem)
+            result = add_item_by_attrs("Follow",'Follower',event['follower'],'Followee',event['followee'])
+            if result == True:
+                response=getResultSingle(None)
+            else:
+                response=getResultError("User already followed the target user")
         else:
             result = delete_item_by_attrs("Follow","Follower",event['follower'],"Followee",event['followee'])
+            if result == True:
+                response=getResultSingle(None)
+            else:
+                response=getResultError("User didn't follow the target user")
 
-        response=getResultSingle(None)
     except Exception, e:
         print(e)
         raise e
@@ -25,6 +31,21 @@ def lambda_handler(event, context):
 def add_item(table_name, col_dict):
     table = dynamodb_resource.Table(table_name)
     result = table.put_item(Item=col_dict)
+    return True
+
+def add_item_by_attrs(table_name, attr1, value1, attr2, value2):
+    # retrieve the item to get the id
+    table = dynamodb_resource.Table(table_name)
+    filtering_exp1 = Attr(attr1).eq(value1)
+    filtering_exp2 = Attr(attr2).eq(value2)
+    data = table.scan(FilterExpression=filtering_exp1 & filtering_exp2)
+    if data['Count'] > 0:
+        return False
+
+    addedItem={'Id':uuid.uuid4().hex,attr1:value1,attr2:value2}
+
+    # delete the item using id
+    result = add_item(table_name,addedItem)
     return True
 
 def delete_item(table_name, pk_name, pk_value):
