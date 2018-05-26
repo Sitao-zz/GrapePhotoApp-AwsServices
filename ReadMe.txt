@@ -5,28 +5,26 @@ Lambda
 ***** Post Service *****
 ************************
 
-#AddPost#
-input: image
-- create thumbnail
-- store image in S3
+/post/add
+input: post
 - save URL to DB
 
-#GetPost#
+/post/full
 input: postid, userid
 - get the full image
 x- get the image tag
 - get the like counts
 x- get whether he/she has liked the post
 
-#GetRecentPosts#
+/post/recent
 input: limit
 - retrieve the all recent images (thumbnail) urls within the limit count
 
-#GetRecentFeeds#
+/post/feeds
 input: userid
 - retrieve the recent images (thumbnail) urls by the followees
 
-#LikePost#
+/post/like
 input: userid, postid, like
 - add record of like
 - retrieve the like counts
@@ -38,21 +36,22 @@ input: userid, postid, like
 ***** User Service *****
 ************************
 
-#Register user#
-input: user
+/user/register
+input: userid, username, pwd, email
 - save user particular (userId, email, password, phoneId)
 
-#Login user#
+/user/login
 input: userid, pwd
 - authentication
 - call #Image Retieval#
 
-#Search users#
-input: user id, phone, number, email or something
+/user/update
+input: userid, username, pwd, email
+- update user record
 - search the users according to criteria
 - return the user list
 
-#Follow users#
+/user/follow
 input: follower, followee, follow
 - update DB
 
