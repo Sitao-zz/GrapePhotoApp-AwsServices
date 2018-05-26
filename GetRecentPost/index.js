@@ -38,6 +38,7 @@ function onScan(err, data) {
         data.Items.forEach(function(post) {
             scan_data.push(post);
             if(scan_data.length >= scan_event.limit) {
+                scan_data.sort(compare);
                 scan_callback(null, formatter.getResultMultiple(scan_data));
                 return;
             }
@@ -54,4 +55,8 @@ function onScan(err, data) {
             return;
         }
     }
+}
+
+function compare(post1, post2) {
+    return post1.Timestamp < post2.Timestamp;
 }
