@@ -19,9 +19,8 @@ x- get the image tag
 x- get whether he/she has liked the post
 
 #GetRecentPosts#
-input: user
-- get list of followees
-- retrieve the recent images thumbnails by the followees
+input: limit
+- retrieve the all recent images (thumbnail) urls within the limit count
 
 #LikePost#
 - add record of like
