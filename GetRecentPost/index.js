@@ -10,6 +10,10 @@ var scan_data = null;
 var scan_params = null;
 
 exports.handler = (event, context, callback) => {
+    getPosts(event, callback)
+};
+
+function getPosts(event, callback) {
     var params = {
         TableName: table,
         ProjectionExpression: "PostId, #ts, ImgUrl, LikeCount, Note, UserId",
@@ -25,7 +29,7 @@ exports.handler = (event, context, callback) => {
     scan_event = event;
     scan_data = [];
     docClient.scan(params, onScan);
-};
+}
 
 function onScan(err, data) {
     if (err) {
