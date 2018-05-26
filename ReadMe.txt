@@ -23,6 +23,7 @@ input: limit
 - retrieve the all recent images (thumbnail) urls within the limit count
 
 #LikePost#
+input: userid, postid, like
 - add record of like
 - retrieve the like counts
 
@@ -34,9 +35,11 @@ input: limit
 ************************
 
 #Register user#
+input: user
 - save user particular (userId, email, password, phoneId)
 
 #Login user#
+input: userid, pwd
 - authentication
 - call #Image Retieval#
 
@@ -46,6 +49,7 @@ input: user id, phone, number, email or something
 - return the user list
 
 #Follow users#
+input: follower, followee, follow
 - update DB
 
 ********************************
