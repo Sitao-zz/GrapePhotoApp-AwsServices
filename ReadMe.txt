@@ -12,10 +12,11 @@ input: image
 - save URL to DB
 
 #GetPost#
-input: imageId
+input: postid, userid
 - get the full image
-- get the image tag
+x- get the image tag
 - get the like counts
+x- get whether he/she has liked the post
 
 #GetRecentPosts#
 input: user

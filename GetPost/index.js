@@ -4,10 +4,11 @@ var AWS = require("aws-sdk");
 var docClient = new AWS.DynamoDB.DocumentClient();
 var table = 'Post';
 
-var scan_callback = null;
-var scan_event = null;
-
 exports.handler = (event, context, callback) => {
+    getPost(event, getUserLike, callback);
+};
+
+function getPost(event, nextcall, callback) {
     var params = {
         TableName: table,
         ProjectionExpression: "PostId, #ts, ImgUrl, LikeCount, Note, UserId",
@@ -21,20 +22,43 @@ exports.handler = (event, context, callback) => {
         ScanIndexForward: false
     };
 
-    scan_callback = callback;
-    scan_event = event;
-    docClient.scan(params, onScan);
-};
+    docClient.scan(params, function (err, data) {
+        if (err) {
+            callback(null, formatter.getResultError("Unable to read item. " + err));
+        } else {
+            if(data.Count > 0){
+                nextcall(event, data.Items[0], callback);
+            } else {
+                callback(null, formatter.getResultError("Post is not found."));
+            }
+        }
+    });
+}
 
-function onScan(err, data) {
-    if (err) {
-        scan_callback(null, formatter.getResultError("Unable to read item. " + err));
-    } else {
-        data.Items.forEach(function(post) {
-            scan_callback(null, formatter.getResultSingle(post));
-            return;
-        });
+function getUserLike(event, post, callback) {
+    var params = {
+        TableName: 'UserLike',
+        ProjectionExpression: "Id",
+        FilterExpression: "PostId = :postid and UserId = :userid",
+        ExpressionAttributeValues: {
+             ":postid": event.postid,
+             ":userid": event.userid
+        },
+        ScanIndexForward: false
+    };
 
-        scan_callback(null, formatter.getResultError("Post is not found."));
-    }
+    docClient.scan(params, function (err, data) {
+        if (err) {
+            callback(null, formatter.getResultError("Unable to read UserLike item. " + err));
+        } else {
+            let result = {
+                "Post": post,
+                "Liked": 0
+            };
+            if (data.Count > 0) {
+                result.Liked = 1;
+            }
+            callback(null, formatter.getResultSingle(result));
+        }
+    });
 }
