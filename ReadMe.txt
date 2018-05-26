@@ -22,6 +22,10 @@ x- get whether he/she has liked the post
 input: limit
 - retrieve the all recent images (thumbnail) urls within the limit count
 
+#GetRecentFeeds#
+input: userid
+- retrieve the recent images (thumbnail) urls by the followees
+
 #LikePost#
 input: userid, postid, like
 - add record of like
