@@ -48,6 +48,9 @@ input: userid, pwd
 /user/update
 input: userid, username, pwd, email
 - update user record
+
+/user/search
+input: username, number, email or something
 - search the users according to criteria
 - return the user list
 
