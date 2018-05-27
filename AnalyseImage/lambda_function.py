@@ -4,6 +4,7 @@ import boto3
 from decimal import Decimal
 import json
 import urllib
+import uuid
 
 print('Loading function')
 
@@ -25,8 +26,17 @@ def detect_labels(bucket, key):
     # Sample code to write response to DynamoDB table 'MyTable' with 'PK' as Primary Key.
     # Note: role used for executing this Lambda function should have write access to the table.
     #table = boto3.resource('dynamodb').Table('AnalyzedImageResult')
-    labels = [{'Confidence': Decimal(str(label_prediction['Confidence'])), 'Name': label_prediction['Name']} for label_prediction in response['Labels']]
-    table.put_item(Item={'ImageName': key, 'Label': labels})
+    index=0
+    for label_prediction in response['Labels']:
+        if index == 0 or label_prediction['Confidence'] > 90:
+            item = {
+                'Id':uuid.uuid4().hex,
+                'ImageName': key,
+                'Tag': label_prediction['Name'],
+                'Confidence': Decimal(label_prediction['Confidence'])
+            }
+            table.put_item(Item=item)
+        index+=1
     return response
 
 
