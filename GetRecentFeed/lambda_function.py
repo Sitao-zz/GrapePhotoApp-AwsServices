@@ -25,7 +25,7 @@ def lambda_handler(event, context):
                     break
         response=getResultMultiple(posts)
     else:
-        response=getResultSingle(None)
+        response=getResultMultiple([])
 
     return response
 
