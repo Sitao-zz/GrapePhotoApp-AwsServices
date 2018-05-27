@@ -30,7 +30,7 @@ def lambda_handler(event, context):
     return response
 
 def convert(post):
-    return calendar.timegm(time.strptime(post['Timestamp'], '%Y-%m-%dT%H:%M:%S.%fZ'))
+    return post['Timestamp']
 
 def get_items(table_name, expr):
     table = dynamodb_resource.Table(table_name)

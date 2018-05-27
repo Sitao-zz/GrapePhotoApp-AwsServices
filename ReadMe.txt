@@ -14,7 +14,7 @@ input: postid, userid
 - get the full image
 x- get the image tag
 - get the like counts
-x- get whether he/she has liked the post
+- get whether he/she has liked the post
 
 /post/recent
 input: limit
