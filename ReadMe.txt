@@ -12,7 +12,7 @@ input: post
 /post/full
 input: postid, userid
 - get the full image
-x- get the image tag
+- get the image tag
 - get the like counts
 - get whether he/she has liked the post
 

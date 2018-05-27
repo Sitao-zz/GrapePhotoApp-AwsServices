@@ -5,10 +5,10 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 var table = 'Post';
 
 exports.handler = (event, context, callback) => {
-    getPost(event, getUserLike, callback);
+    getPost(event, [getUserLike, getImageTag], callback);
 };
 
-function getPost(event, nextcall, callback) {
+function getPost(event, calllist, callback) {
     var params = {
         TableName: table,
         ProjectionExpression: "PostId, #ts, ImgUrl, LikeCount, Note, UserId",
@@ -27,7 +27,9 @@ function getPost(event, nextcall, callback) {
             callback(null, formatter.getResultError("Unable to read item. " + err));
         } else {
             if(data.Count > 0){
-                nextcall(event, data.Items[0], callback);
+                if(calllist.length > 0) {
+                    calllist.shift()(event, data.Items[0], calllist, callback);
+                }
             } else {
                 callback(null, formatter.getResultError("Post is not found."));
             }
@@ -35,7 +37,7 @@ function getPost(event, nextcall, callback) {
     });
 }
 
-function getUserLike(event, post, callback) {
+function getUserLike(event, post, calllist, callback) {
     var params = {
         TableName: 'UserLike',
         ProjectionExpression: "Id",
@@ -58,7 +60,40 @@ function getUserLike(event, post, callback) {
             if (data.Count > 0) {
                 result.Liked = 1;
             }
-            callback(null, formatter.getResultSingle(result));
+
+            if(calllist.length > 0) {
+                calllist.shift()(event, result, calllist, callback);
+            } else {
+                callback(null, formatter.getResultSingle(result));
+            }
+        }
+    });
+}
+
+function getImageTag(event, result, calllist, callback) {
+    var path = require("path");
+    var name = path.basename(result["Post"]["ImgUrl"]);
+
+    var params = {
+        TableName: 'ImageTag',
+        ProjectionExpression: "Label",
+        FilterExpression: "ImageName = :name",
+        ExpressionAttributeValues: {
+             ":name": name
+        },
+        ScanIndexForward: false
+    };
+
+    docClient.scan(params, function (err, data) {
+        if (err) {
+            callback(null, formatter.getResultError("Unable to read ImageTag item. " + err));
+        } else {
+            if(calllist.length > 0) {
+                calllist.shift()(event, result, calllist, callback);
+            } else {
+                result['Tags']=data['Items'][0]['Label'];
+                callback(null, formatter.getResultSingle(result));
+            }
         }
     });
 }
