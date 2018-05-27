@@ -62,6 +62,10 @@ input: follower, followee, follow
 input: userid
 - get list of followees
 
+/user/followers
+input: userid
+- get list of followers
+
 ********************************
 ***** Notification Service *****
 ********************************
