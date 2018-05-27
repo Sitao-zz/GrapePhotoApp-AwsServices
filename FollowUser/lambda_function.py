@@ -13,13 +13,13 @@ def lambda_handler(event, context):
         if event['follow'] == 1:
             result = add_item_by_attrs("Follow",'Follower',event['follower'],'Followee',event['followee'])
             if result == True:
-                response=getResultSingle(None)
+                response=getResultMultiple([])
             else:
                 response=getResultError("User already followed the target user")
         else:
             result = delete_item_by_attrs("Follow","Follower",event['follower'],"Followee",event['followee'])
             if result == True:
-                response=getResultSingle(None)
+                response=getResultMultiple([])
             else:
                 response=getResultError("User didn't follow the target user")
 

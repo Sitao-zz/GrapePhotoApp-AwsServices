@@ -49,7 +49,7 @@ function insertItem(event, callback) {
         if (err) {
             callback(null, formatter.getResultError("Unable to insert item. " + err));
         } else {
-            callback(null, formatter.getResultSingle(null));
+            callback(null, formatter.getResultMultiple([]));
         }
     });
 }
