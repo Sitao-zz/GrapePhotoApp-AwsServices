@@ -58,6 +58,10 @@ input: username, number, email or something
 input: follower, followee, follow
 - update DB
 
+/user/followees
+input: userid
+- get list of followees
+
 ********************************
 ***** Notification Service *****
 ********************************
