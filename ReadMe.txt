@@ -69,3 +69,12 @@ input: userid
 #Notification#
 input: image, uploader
 - retrieve the subscribers of the user and send notification
+
+*****************************
+***** Analytics Service *****
+*****************************
+
+#Image processing#
+input: image tag
+- calculate the image tag in Dynamodb and store to RDS
+- OR: add trigger in Dynamodb to update RDS when it is changed
