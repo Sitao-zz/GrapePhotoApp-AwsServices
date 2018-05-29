@@ -12,6 +12,7 @@ rekognition = boto3.client('rekognition')
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('ImageTag')
 thumbFolderName = "Thumbs"
+tags = {"Food", "Plant", "Car", "Room"}
 
 # --------------- Helper Functions to call Rekognition APIs ------------------
 
@@ -32,9 +33,8 @@ def detect_labels(bucket, key):
     # Sample code to write response to DynamoDB table 'MyTable' with 'PK' as Primary Key.
     # Note: role used for executing this Lambda function should have write access to the table.
     #table = boto3.resource('dynamodb').Table('AnalyzedImageResult')
-    index=0
     for label_prediction in response['Labels']:
-        if index == 0 or label_prediction['Confidence'] > 90:
+        if label_prediction['Name'] in tags:
             item = {
                 'Id':uuid.uuid4().hex,
                 'ImageName': key,
@@ -42,7 +42,26 @@ def detect_labels(bucket, key):
                 'Confidence': Decimal(label_prediction['Confidence'])
             }
             table.put_item(Item=item)
-        index+=1
+            break
+
+    if not 'item' in locals():
+        if len(response['Labels']) > 0:
+            item = {
+                'Id':uuid.uuid4().hex,
+                'ImageName': key,
+                'Tag': response['Labels'][0]['Name'],
+                'Confidence': Decimal(response['Labels'][0]['Confidence'])
+            }
+            table.put_item(Item=item)
+        else:
+            item = {
+                'Id':uuid.uuid4().hex,
+                'ImageName': key,
+                'Tag': "Unrecognized",
+                'Confidence': 0
+            }
+            table.put_item(Item=item)
+
     return response
 
 
