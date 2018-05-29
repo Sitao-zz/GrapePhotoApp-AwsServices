@@ -7,6 +7,7 @@ Lambda
 
 /post/add
 input: post
+x- create thumbnail
 - save URL to DB
 
 /post/full
@@ -28,6 +29,11 @@ input: userid
 input: userid, postid, like
 - add record of like
 - retrieve the like counts
+
+/post/search
+input: key, value
+- search string field of Post table
+- search by Tag
 
 #Image analyser#
 - analyse the image and create tag save to DB
