@@ -19,7 +19,7 @@ thumbFolderName = "Thumbs"
 def detect_faces(bucket, key):
     if key.startswith(thumbFolderName):
         return null
-        
+
     response = rekognition.detect_faces(Image={"S3Object": {"Bucket": bucket, "Name": key}})
     return response
 
