@@ -76,7 +76,7 @@ function getImageTag(event, result, calllist, callback) {
 
     var params = {
         TableName: 'ImageTag',
-        ProjectionExpression: "Label",
+        ProjectionExpression: "Tag, Confidence",
         FilterExpression: "ImageName = :name",
         ExpressionAttributeValues: {
              ":name": name
@@ -91,7 +91,7 @@ function getImageTag(event, result, calllist, callback) {
             if(calllist.length > 0) {
                 calllist.shift()(event, result, calllist, callback);
             } else {
-                result['Tags']=data['Items'][0]['Label'];
+                result['Tags']=data['Items'];
                 callback(null, formatter.getResultSingle(result));
             }
         }
