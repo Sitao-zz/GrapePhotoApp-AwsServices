@@ -1,0 +1,93 @@
+// Post Servies
+/post/add
+{
+  "Note": "Nice image",
+  "ImgUrl": "http://dummy-url",
+  "ThumbUrl": "http://dummy-thumb-url",
+  "UserId": "user2"
+}
+/post/feeds: get recent 3 posts which are posted the users followed by user1
+{
+  "UserId": "user1",
+  "Limit": 3
+}
+/post/full: get the full post using PostId
+{
+  "PostId": "bcff6570-5f65-11e8-9c45-b3607df73180",
+  "UserId": "user1"
+}
+/post/like: user1 likes the post
+{
+  "UserId" : "user1",
+  "PostId" : "bcff6570-5f65-11e8-9c45-b3607df73180",
+  "Like" : 1
+}
+/post/like: user1 unlikes the post
+{
+  "UserId" : "user1",
+  "PostId" : "bcff6570-5f65-11e8-9c45-b3607df73180",
+  "Like" : 0
+}
+/post/recent: get recent 3 posts regardless the user
+{
+  "Limit": 3
+}
+
+// User Services
+/user/follow: user1 follows user3:
+{
+  "Follower" : "user1",
+  "Followee" : "user3",
+  "Follow" : 1
+}
+/user/follow: user1 unfollows user3:
+{
+  "Follower" : "user1",
+  "Followee" : "user3",
+  "Follow" : 0
+}
+/user/followee: get list of users followed by user1
+{
+  "UserId": "user1"
+}
+/user/follower: get list of users following user1
+{
+  "UserId": "user1"
+}
+/user/login
+{
+  "UserId" : "user1",
+  "Password" : "12345"
+}
+/user/register
+{
+  "UserId" : "user1",
+  "UserName" : "user1name",
+  "Email" : "user@new.domain",
+  "Password" : "12345"
+}
+/user/search: search users whoes UserName contains "user1"
+{
+  "Key" : "UserName",
+  "Value" : "user1"
+}
+/user/search: search users whoes Email contains "domain"
+{
+  "Key" : "Email",
+  "Value" : "domain"
+}
+/user/update: update UserName only
+{
+  "UserId" : "user1",
+  "UserName" : "user1name"
+}
+/user/update: update Password only
+{
+  "UserId" : "user1",
+  "Password" : "12345"
+}
+/user/update: update Email only
+{
+  "UserId" : "user1",
+  "Email" : "user@new.domain"
+}
