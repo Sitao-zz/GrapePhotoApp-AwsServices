@@ -1,0 +1,115 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ds:AuthorizeApplication",
+                "ds:UnauthorizeApplication",
+                "ds:CheckAlias",
+                "ds:CreateAlias",
+                "ds:DescribeDirectories",
+                "ds:DescribeTrusts",
+                "ds:DeleteDirectory",
+                "ds:CreateIdentityPoolDirectory",
+                "iam:CreatePolicy",
+                "iam:CreateRole",
+                "iam:ListAccountAliases",
+                "quicksight:CreateUser",
+                "quicksight:CreateAdmin",
+                "quicksight:Subscribe",
+                "quicksight:GetGroupMapping",
+                "quicksight:SearchDirectoryGroups",
+                "quicksight:SetGroupMapping"
+            ],
+            "Resource": "arn:aws:iam::iss-cloud8-db:policy/service-role/AWSQuickSightIAMPolicy",
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestedRegion": "us-east-1"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "athena:BatchGetQueryExecution",
+                "athena:CancelQueryExecution",
+                "athena:GetCatalogs",
+                "athena:GetExecutionEngine",
+                "athena:GetExecutionEngines",
+                "athena:GetNamespace",
+                "athena:GetNamespaces",
+                "athena:GetQueryExecution",
+                "athena:GetQueryExecutions",
+                "athena:GetQueryResults",
+                "athena:GetTable",
+                "athena:GetTables",
+                "athena:ListQueryExecutions",
+                "athena:RunQuery",
+                "athena:StartQueryExecution",
+                "athena:StopQueryExecution"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestedRegion": "us-east-1"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "glue:CreateDatabase",
+                "glue:DeleteDatabase",
+                "glue:GetDatabase",
+                "glue:GetDatabases",
+                "glue:UpdateDatabase",
+                "glue:CreateTable",
+                "glue:DeleteTable",
+                "glue:BatchDeleteTable",
+                "glue:UpdateTable",
+                "glue:GetTable",
+                "glue:GetTables",
+                "glue:BatchCreatePartition",
+                "glue:CreatePartition",
+                "glue:DeletePartition",
+                "glue:BatchDeletePartition",
+                "glue:UpdatePartition",
+                "glue:GetPartition",
+                "glue:GetPartitions",
+                "glue:BatchGetPartition"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestedRegion": "us-east-1"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:ListBucketMultipartUploads",
+                "s3:ListMultipartUploadParts",
+                "s3:AbortMultipartUpload",
+                "s3:CreateBucket",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::aws-athena-query-results-*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestedRegion": "us-east-1"
+                }
+            }
+        }
+    ]
+}
