@@ -1,0 +1,7 @@
+#set($inputRoot = $input.path('$'))
+{
+  "userid" : "$inputRoot.UserId",
+  "username" : "$inputRoot.UserName",
+  "email" : "$inputRoot.Email",
+  "pwd" : "$inputRoot.Password"
+}

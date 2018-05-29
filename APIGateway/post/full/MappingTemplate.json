@@ -1,0 +1,5 @@
+#set($inputRoot = $input.path('$'))
+{
+  "postid": "$inputRoot.PostId",
+  "userid": "$inputRoot.UserId"
+}

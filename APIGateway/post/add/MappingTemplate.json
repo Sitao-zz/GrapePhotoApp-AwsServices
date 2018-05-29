@@ -1,0 +1,7 @@
+#set($inputRoot = $input.path('$'))
+{
+  "note": "$inputRoot.Note",
+  "imgurl": "$inputRoot.ImgUrl",
+  "thumburl": "$inputRoot.ThumbUrl",
+  "userid": "$inputRoot.UserId"
+}

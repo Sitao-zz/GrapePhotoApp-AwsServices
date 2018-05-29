@@ -1,0 +1,6 @@
+#set($inputRoot = $input.path('$'))
+{
+  "follower" : "$inputRoot.Follower",
+  "followee" : "$inputRoot.Followee",
+  "follow" : $inputRoot.Follow
+}

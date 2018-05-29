@@ -1,0 +1,6 @@
+#set($inputRoot = $input.path('$'))
+{
+    "like":$inputRoot.Like,
+    "postid":"$inputRoot.PostId",
+    "userid":"$inputRoot.UserId"
+}
