@@ -6,7 +6,7 @@
   "ThumbUrl": "http://dummy-thumb-url",
   "UserId": "user2"
 }
-/post/feeds: get recent 3 posts which are posted the users followed by user1
+/post/feeds: get recent 3 posts which are posted by the users followed by user1
 {
   "UserId": "user1",
   "Limit": 3
@@ -27,6 +27,11 @@
   "UserId" : "user1",
   "PostId" : "bcff6570-5f65-11e8-9c45-b3607df73180",
   "Like" : 0
+}
+/post/feeds: get recent 3 posts which are posted by user1
+{
+  "UserId": "user1",
+  "Limit": 3
 }
 /post/recent: get recent 3 posts regardless the user
 {

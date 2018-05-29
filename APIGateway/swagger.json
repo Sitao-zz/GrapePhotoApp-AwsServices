@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2018-05-29T03:45:24Z",
+    "version": "2018-05-29T11:21:22Z",
     "title": "GrapePhotoFullAPI"
   },
   "host": "xwgwg2b0yi.execute-api.us-east-1.amazonaws.com",
@@ -109,6 +109,34 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/PostLikeInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            }
+          }
+        }
+      }
+    },
+    "/post/my": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "MyPostsInputModel",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MyPostsInputModel"
             }
           }
         ],
@@ -422,6 +450,18 @@
     "Empty": {
       "type": "object",
       "title": "Empty Schema"
+    },
+    "MyPostsInputModel": {
+      "type": "object",
+      "properties": {
+        "UserId": {
+          "type": "string"
+        },
+        "Limit": {
+          "type": "integer"
+        }
+      },
+      "title": "FeedRecentInputModel"
     },
     "PostFullInputModel": {
       "type": "object",
