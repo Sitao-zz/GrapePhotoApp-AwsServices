@@ -3,5 +3,7 @@
   "note": "$inputRoot.Note",
   "imgurl": "$inputRoot.ImgUrl",
   "thumburl": "$inputRoot.ThumbUrl",
-  "userid": "$inputRoot.UserId"
+  "userid": "$inputRoot.UserId",
+  "width": $inputRoot.Width,
+  "height": $inputRoot.Height
 }

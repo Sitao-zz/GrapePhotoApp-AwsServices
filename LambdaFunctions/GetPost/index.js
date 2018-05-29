@@ -11,7 +11,7 @@ exports.handler = (event, context, callback) => {
 function getPost(event, calllist, callback) {
     var params = {
         TableName: table,
-        ProjectionExpression: "PostId, #ts, ImgUrl, LikeCount, Note, UserId",
+        ProjectionExpression: "PostId, #ts, ImgUrl, LikeCount, Note, UserId, ThumbUrl, Width, Height",
         FilterExpression: "PostId = :postid",
         ExpressionAttributeNames: {
             "#ts": "Timestamp",

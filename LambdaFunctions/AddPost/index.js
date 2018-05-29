@@ -15,7 +15,9 @@ exports.handler = (event, context, callback) => {
             "Timestamp": new Date().toISOString(),
             "ImgUrl": event.imgurl,
             "ThumbUrl": event.thumburl,
-            "UserId": event.userid
+            "UserId": event.userid,
+            "Width": event.width,
+            "Height": event.height
         }
     };
 

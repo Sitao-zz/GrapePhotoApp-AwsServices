@@ -11,7 +11,7 @@ dynamodb_resource = resource('dynamodb')
 
 def lambda_handler(event, context):
     filtering_exp = Attr('UserId').eq(event['userid'])
-    projection_exp='PostId, #ts, ImgUrl, LikeCount, Note, ThumbUrl, Width, Height'
+    projection_exp='PostId, #ts, ImgUrl, LikeCount, Note, UserId, ThumbUrl, Width, Height'
     attrname_exp = { '#ts': 'Timestamp' }
     data = get_items("Post",filtering_exp,projection_exp,attrname_exp)
     posts = data['Items']
