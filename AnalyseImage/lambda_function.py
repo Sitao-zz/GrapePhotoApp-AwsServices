@@ -11,16 +11,22 @@ print('Loading function')
 rekognition = boto3.client('rekognition')
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('ImageTag')
+thumbFolderName = "Thumbs"
 
 # --------------- Helper Functions to call Rekognition APIs ------------------
 
 
 def detect_faces(bucket, key):
+    if key.startswith(thumbFolderName):
+        return null
+        
     response = rekognition.detect_faces(Image={"S3Object": {"Bucket": bucket, "Name": key}})
     return response
 
 
 def detect_labels(bucket, key):
+    if key.startswith(thumbFolderName):
+        return null
     response = rekognition.detect_labels(Image={"S3Object": {"Bucket": bucket, "Name": key}})
 
     # Sample code to write response to DynamoDB table 'MyTable' with 'PK' as Primary Key.
