@@ -25,7 +25,7 @@ exports.handler = (event, context, callback) => {
             var obj = {
                 Item: params.Item
             };
-            callback(null, formatter.getResultSingle(obj));
+            callback(null, formatter.getResultMultiple(obj['Item']));
         }
     });
 };
