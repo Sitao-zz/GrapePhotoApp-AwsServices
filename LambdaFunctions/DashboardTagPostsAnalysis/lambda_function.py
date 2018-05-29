@@ -20,21 +20,17 @@ def lambda_handler(event, context):
     items2=data2['Items']
 
     result = {}
-    testcount=0
     for item in items1:
-        testcount+=1
-        print testcount
         # create tag for classification
         if not result.has_key(item["Tag"]):
             result[item["Tag"]]={}
             result[item["Tag"]]["Tag"]=item["Tag"]
             result[item["Tag"]]["Rank"]=0
             result[item["Tag"]]["Posts"]=0
-        #concat timage
-        imagename = 'https://s3.amazonaws.com/image-us-east-1-824831449792/'+item["ImageName"]
+
         # Update the total post count
         for x in items2:
-            if imagename == x["ImgUrl"]:
+            if x["ImgUrl"].find(item["ImageName"]) >= 0:
                 if result[item["Tag"]].has_key("Posts"):
                     result[item["Tag"]]["Posts"]+=1
                 else:

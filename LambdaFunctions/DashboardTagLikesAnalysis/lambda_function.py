@@ -26,11 +26,10 @@ def lambda_handler(event, context):
             result[item["Tag"]]={}
             result[item["Tag"]]["Tag"]=item["Tag"]
             result[item["Tag"]]["Rank"]=0
-        #concat timage
-        imagename = 'https://s3.amazonaws.com/image-us-east-1-824831449792/'+item["ImageName"]
+
         likecount = 0
         for x in items2:
-            if imagename == x["ImgUrl"]:
+            if x["ImgUrl"].find(item["ImageName"]) >= 0:
                 likecount = x["LikeCount"]
 
         # Update the total like count
