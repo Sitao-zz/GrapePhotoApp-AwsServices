@@ -6,7 +6,7 @@ dynamodb_resource = resource('dynamodb')
 
 def lambda_handler(event, context):
     try:
-        if(len(event['value'])) <= 3:
+        if(len(event['value'])) <= 1:
             response = getResultError("Search value must be more than 3 characters")
             return response
 
