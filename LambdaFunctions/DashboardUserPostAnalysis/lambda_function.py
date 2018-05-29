@@ -19,6 +19,8 @@ def lambda_handler(event, context):
         # create user
         if not result.has_key(item["UserId"]):
             result[item["UserId"]]={}
+            result[item["UserId"]]["UserId"]=item["UserId"]
+            result[item["UserId"]]["Rank"]=0
 
         # Update the post count
         if not result[item["UserId"]].has_key("Posts"):
@@ -26,14 +28,23 @@ def lambda_handler(event, context):
         else:
             result[item["UserId"]]["Posts"]+=1
 
-        # Update the total like count
-        if not result[item["UserId"]].has_key("Likes"):
-            result[item["UserId"]]["Likes"]=item["LikeCount"]
-        else:
-            result[item["UserId"]]["Likes"]+=item["LikeCount"]
+    # caculate the rank of each user
+    index = 1
+    for key, value in sorted(result.iteritems(), key=lambda (k,v): (-v["Posts"],k)):
+        value["Rank"]=index
+        index+=1
+
+    # save the ranked records to database
+    for record in result.values():
+        put_item("User_Post_Rank_Analysis", record)
     return result
 
 def get_items(table_name, projExpr):
     table = dynamodb_resource.Table(table_name)
     data = table.scan(ProjectionExpression=projExpr)
     return data
+
+def put_item(table_name, item):
+    table = dynamodb_resource.Table(table_name)
+    table.put_item(Item=item)
+    return
