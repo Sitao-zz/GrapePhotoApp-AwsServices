@@ -13,7 +13,8 @@ exports.handler = (event, context, callback) => {
             "LikeCount": 0,
             "Note": event.note,
             "Timestamp": new Date().toISOString(),
-            "ImgUrl": event.url,
+            "ImgUrl": event.imgurl,
+            "ThumbUrl": event.thumburl,
             "UserId": event.userid
         }
     };
