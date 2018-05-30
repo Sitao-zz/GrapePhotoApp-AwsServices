@@ -32,9 +32,9 @@ def getPostsByFollowees(followees, limit):
         data = get_items("Post",filtering_exp)
         if data['Count'] > 0:
             posts.extend(data['Items'])
+            posts.sort(key=convert, reverse=True)
             if len(posts) >= limit:
                 posts=posts[:limit]
-                posts.sort(key=convert, reverse=True)
                 break
     return posts
 

@@ -20,9 +20,9 @@ def lambda_handler(event, context):
 def getPosts(limit):
     data = get_items("Post",None)
     posts = data['Items']
+    posts.sort(key=convert, reverse=True)
     if len(posts) >= limit:
         posts=posts[:limit]
-        posts.sort(key=convert, reverse=True)
     return posts
 
 def updatePostLikesAttr(posts, userid):

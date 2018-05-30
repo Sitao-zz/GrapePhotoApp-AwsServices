@@ -22,9 +22,9 @@ def getPostsByUserId(userid, limit):
     filtering_exp = Attr('UserId').eq(userid)
     data = get_items("Post",filtering_exp)
     posts = data['Items']
+    posts.sort(key=convert, reverse=True)
     if len(posts) >= limit:
         posts=posts[:limit]
-        posts.sort(key=convert, reverse=True)
     return posts
 
 def updatePostLikesAttr(posts, userid):
