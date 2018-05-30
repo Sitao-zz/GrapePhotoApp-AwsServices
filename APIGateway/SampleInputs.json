@@ -84,6 +84,10 @@
   "Key" : "Email",
   "Value" : "domain"
 }
+/user/top: get top 3 users having the most likes
+{
+  "Limit": 3
+}
 /user/update: update UserName only
 {
   "UserId" : "user1",

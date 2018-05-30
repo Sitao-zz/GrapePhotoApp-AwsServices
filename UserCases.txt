@@ -55,6 +55,10 @@ input: userid, pwd
 input: userid, username, pwd, email
 - update user record
 
+/user/top
+input: limit
+- get the users having the most likes
+
 /user/search
 input: username, number, email or something
 - search the users according to criteria

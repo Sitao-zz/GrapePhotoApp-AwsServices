@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2018-05-30T13:56:26Z",
+    "version": "2018-05-30T15:43:28Z",
     "title": "GrapePhotoFullAPI"
   },
   "host": "xwgwg2b0yi.execute-api.us-east-1.amazonaws.com",
@@ -351,6 +351,34 @@
         }
       }
     },
+    "/user/top": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "UserTopInputModel",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserTopInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            }
+          }
+        }
+      }
+    },
     "/user/update": {
       "post": {
         "consumes": [
@@ -381,6 +409,15 @@
     }
   },
   "definitions": {
+    "UserTopInputModel": {
+      "type": "object",
+      "properties": {
+        "Limit": {
+          "type": "integer"
+        }
+      },
+      "title": "UserTopInputModel"
+    },
     "UserRegisterInputModel": {
       "type": "object",
       "properties": {
