@@ -10,24 +10,44 @@ from resultFormatter import getResultSingle, getResultMultiple, getResultError
 dynamodb_resource = resource('dynamodb')
 
 def lambda_handler(event, context):
-    filtering_exp = Attr('Follower').eq(event['userid'])
-    data = get_items("Follow",filtering_exp)
+    data=getFolloweesDataByUserId(event['userid'])
     if data['Count'] > 0:
-        posts = []
-        for item in data['Items']:
-            filtering_exp = Attr('UserId').eq(item['Followee'])
-            data_post = get_items("Post",filtering_exp)
-            if data_post['Count'] > 0:
-                posts.extend(data_post['Items'])
-                if len(posts) >= event['limit']:
-                    posts=posts[:event['limit']]
-                    posts.sort(key=convert, reverse=True)
-                    break
+        posts=getPostsByFollowees(data['Items'], event['limit'])
+        posts=updatePostLikesAttr(posts, event['userid'])
         response=getResultMultiple(posts)
     else:
         response=getResultMultiple([])
 
     return response
+
+def getFolloweesDataByUserId(userid):
+    filtering_exp = Attr('Follower').eq(userid)
+    data = get_items("Follow",filtering_exp)
+    return data
+
+def getPostsByFollowees(followees, limit):
+    posts = []
+    for item in followees:
+        filtering_exp = Attr('UserId').eq(item['Followee'])
+        data = get_items("Post",filtering_exp)
+        if data['Count'] > 0:
+            posts.extend(data['Items'])
+            if len(posts) >= limit:
+                posts=posts[:limit]
+                posts.sort(key=convert, reverse=True)
+                break
+    return posts
+
+def updatePostLikesAttr(posts, userid):
+    for post in posts:
+        filtering_exp = Attr('UserId').eq(userid)
+        filtering_exp &= Attr('PostId').eq(post['PostId'])
+        data = get_items('UserLike',filtering_exp)
+        if data['Count']>0:
+            post['Liked']=1
+        else:
+            post['Liked']=0
+    return posts
 
 def convert(post):
     return post['Timestamp']
