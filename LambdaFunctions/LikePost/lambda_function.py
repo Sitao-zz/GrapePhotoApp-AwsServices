@@ -13,16 +13,16 @@ def lambda_handler(event, context):
         if event['like'] == 1:
             result = add_item_by_attrs("UserLike",'PostId',event['postid'],'UserId',event['userid'])
             if result == True:
-                increase1_table_item("Post","PostId",event['postid'])
-                response=getResultMultiple([])
+                result = increase1_table_item("Post","PostId",event['postid'])
+                response=getResultMultiple(result['Attributes'])
             else:
                 response=getResultError("User already liked this post")
 
         else:
             result = delete_item_by_attrs("UserLike","PostId",event['postid'],"UserId",event['userid'])
             if result == True:
-                decrease1_table_item("Post","PostId",event['postid'])
-                response=getResultMultiple([])
+                result = decrease1_table_item("Post","PostId",event['postid'])
+                response=getResultMultiple(result['Attributes'])
             else:
                 response=getResultError("User didn't like this post")
 
