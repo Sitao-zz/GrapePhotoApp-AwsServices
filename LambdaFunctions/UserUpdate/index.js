@@ -32,20 +32,25 @@ function getItem(event, nextcall, callback) {
 
 function updateItem(event, callback) {
     let expr = "";
-    if (typeof event.pwd != 'undefined') {
+    let attr = {};
+    console.log(event.pwd);
+    if (event.pwd) {
         if(expr == "")  { expr += "set "; }
         else { expr += ", "; }
         expr += "Password=:p";
+        attr[":p"]=event.pwd;
     }
-    if (typeof event.email != 'undefined') {
+    if (event.email) {
         if(expr == "")  { expr += "set "; }
         else { expr += ", "; }
         expr += "Email=:e";
+        attr[":e"]=event.email;
     }
-    if (typeof event.username != 'undefined') {
+    if (event.username) {
         if(expr == "")  { expr += "set "; }
         else { expr += ", "; }
         expr += "UserName=:n";
+        attr[":n"]=event.username;
     }
     let params = {
       TableName:table,
@@ -53,11 +58,7 @@ function updateItem(event, callback) {
           "UserId": event.userid
       },
       UpdateExpression: expr,
-      ExpressionAttributeValues:{
-          ":p":event.pwd,
-          ":e":event.email,
-          ":n":event.username
-      },
+      ExpressionAttributeValues: attr,
       ReturnValues:"UPDATED_NEW"
     };
     docClient.update(params, function(err, data) {
