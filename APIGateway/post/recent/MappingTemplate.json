@@ -1,4 +1,5 @@
 #set($inputRoot = $input.path('$'))
 {
-  "limit": "$inputRoot.Limit"
+  "userid": "$inputRoot.UserId",
+  "limit": $inputRoot.Limit
 }

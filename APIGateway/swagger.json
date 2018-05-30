@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2018-05-29T11:55:44Z",
+    "version": "2018-05-30T13:56:26Z",
     "title": "GrapePhotoFullAPI"
   },
   "host": "xwgwg2b0yi.execute-api.us-east-1.amazonaws.com",
@@ -496,6 +496,9 @@
     "PostRecentInputModel": {
       "type": "object",
       "properties": {
+        "UserId": {
+          "type": "string"
+        },
         "Limit": {
           "type": "integer"
         }

@@ -37,6 +37,7 @@
 }
 /post/recent: get recent 3 posts regardless the user
 {
+  "UserId": "user1",
   "Limit": 3
 }
 
